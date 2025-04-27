@@ -1,8 +1,10 @@
+"use client"
 import { Lightbulb, Volume2 } from 'lucide-react'
 import React from 'react'
 
-const QuestionSection = ({mockInterviewQstn, activeQstnIdx}) => {
 
+const QuestionSection = ({mockInterviewQstn, activeQstnIdx}) => {
+var window = globalThis || {};
   const textToSpeak = (text) => {
     if('speechSynthesis' in window) {
       const msg = new SpeechSynthesisUtterance(text);

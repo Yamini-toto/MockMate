@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { db } from '@/utils/db';
 import { MockInterview } from '@/utils/schema';
-import {ep} from 'drizzle-orm';
+import {eq} from 'drizzle-orm';
 import QuestionSection from './_components/QuestionSection';
 import RecordAnswerSection from './_components/RecordAnswerSection';
 const StartInterview = ({params}) => {
@@ -17,9 +17,9 @@ const StartInterview = ({params}) => {
 
   //getting interview details
     const GetInterviewDetails = async () => {
-      const result = await db.select().from(MockInterview).where(ep(MockInterview.mockId,params.interviewId))
+      const result = await db.select().from(MockInterview).where(eq(MockInterview.mockId,params.interviewId))
       const jsonMockResp = JSON.parse(result[0].jsonMockResp);
-      setmockInterviewQstn(jsonMockResp);
+      setmockInterviewQstn(jsonMockResp[0]);
       setInterviewData(result[0]);
     }
   return (
