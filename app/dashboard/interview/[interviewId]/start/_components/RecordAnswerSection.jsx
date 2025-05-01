@@ -29,6 +29,19 @@ const RecordAnswerSection = () => {
     })
   },[results])
 
+  const startRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+      setMediaStream(stream);
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+      }
+    } catch (error) {
+      console.error('Failed to access media devices:', error);
+      alert("Please give permission to access camera and microphone.");
+    }
+  };
+
   const SaveUserAnswer = () => {
     if(isRecording){
       stopSpeechToText();
@@ -49,16 +62,17 @@ const RecordAnswerSection = () => {
       <Image src={'/assets/Webcam.png'} width={200} height={200} className='absolute'/>
       <Webcam style={{height:300, width:'100%', zIndex:10}} mirrored={true}/>
     </div>
-      <Button className={'my-10'} variant={'outline'} onClick={SaveUserAnswer}>
-
-      {isRecording ? 
-      <h2 className='text-red-600 flex gap-2'>
-        <MicIcon />Stop Recording
-      </h2> 
-      : 
-      'Start Recording'}
-      </Button>
-
+      <Button className={'my-10'} variant={'outline'}>Record Answer</Button>
+      <h1>Recording: {isRecording.toString()}</h1>
+      <button onClick={isRecording ? stopSpeechToText : startSpeechToText}>
+        {isRecording ? 'Stop Recording' : 'Start Recording'}
+      </button>
+      <ul>
+        {results.map((result) => (
+          <li key={result.timestamp}>{result.transcript}</li>
+        ))}
+        {interimResult && <li>{interimResult}</li>}
+      </ul>
     </div>
   )
 }

@@ -19,14 +19,15 @@ const StartInterview = ({params}) => {
     const GetInterviewDetails = async () => {
       const result = await db.select().from(MockInterview).where(eq(MockInterview.mockId,params.interviewId))
       const jsonMockResp = JSON.parse(result[0].jsonMockResp);
-      setmockInterviewQstn(jsonMockResp[0]);
+      console.log("Parsed jsonMockResp:", jsonMockResp);
+      setmockInterviewQstn(jsonMockResp.interviewQuestions);
       setInterviewData(result[0]);
     }
   return (
     <div>
       <div className='grid grid-cols-1 md:grid-cols-2 gap-10'>
       {/* question */}
-      <QuestionSection mockInterviewQstn={mockInterviewQstn} activeQstnIdx={activeQstnIdx}/>
+      <QuestionSection mockInterviewQstn={mockInterviewQstn} activeQstnIdx={activeQstnIdx} setActiveQstnIdx={setActiveQstnIdx}/>
 
       {/* video / Audio recording */}
       <RecordAnswerSection />
