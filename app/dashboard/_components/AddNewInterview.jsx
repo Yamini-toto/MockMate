@@ -2,6 +2,8 @@
 
 import { useState } from 'react'
 import { db } from '@/utils/db'
+import { useRouter } from 'next/navigation';
+
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -28,7 +30,8 @@ const AddNewInterview = () => {
   const [jobExperience, setJobExperience] = useState()
   const [loading, setLoading] = useState(false)
   const [jsonResponse, setJsonResponse] = useState([])
-  const { user } = useUser()
+  const router = useRouter();
+  const { user } = useUser();
 
   const onSubmit = async (e) => {
     setLoading(true)
@@ -37,10 +40,10 @@ const AddNewInterview = () => {
 
     const InputPrompt = "Job Position: " + jobPosition + ", Job Description: " + jobDesc + ", Years of Experience: " + jobExperience + ", Depends on Job Position, Job Description & Years of Experience give us " + process.env.NEXT_PUBLIC_INTERVIEW_QUESTION_COUNT + " interview questions along with their answers in JSON format "
 
-    const result = await chatSession.sendMessage(InputPrompt)
+    const result = await chatSession.sendMessage(InputPrompt);
     const MockJsonResp = (result.response.text()).replace('```json', '').replace('```', '')
-    console.log(JSON.parse(MockJsonResp))
-    setJsonResponse(MockJsonResp)
+    console.log(JSON.parse(MockJsonResp));
+    setJsonResponse(MockJsonResp);
 
     if (MockJsonResp) {
       const resp = await db.insert(MockInterview).values({
@@ -49,11 +52,15 @@ const AddNewInterview = () => {
         jobPosition: jobPosition,
         jobDesc: jobDesc,
         jobExperience: jobExperience,
-        createdBy: user?.primaryEmailAddress?.emailAddress,
-        createdAt: moment().format('DD-MM-yyyy')
+        createdAt: moment().format('DD-MM-yyyy'),
+        createdBy: user?.primaryEmailAddress?.emailAddress
       }).returning({ mockId: MockInterview.mockId })
 
-      console.log("Inserted ID:", resp)
+      console.log("Inserted ID:", resp);
+      if(resp){
+        setOpenDialog(false);
+        router.push('/dashboard/interview/'+resp[0]?.mockId);
+      }
     } else {
       console.log("error")
     } 
@@ -101,7 +108,7 @@ const AddNewInterview = () => {
                   <Button type="submit" disabled={loading}>
                     {loading ?
                       <>
-                        <LoaderCircle className='animate-spin' />'Generating from AI'
+                        <LoaderCircle className='animate-spin' />Generating from AI
                       </> :
                       'Start Interview'
                     }

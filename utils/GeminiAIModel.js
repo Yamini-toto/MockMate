@@ -42,4 +42,3 @@ export const chatSession = model.startChat({
     generationConfig,
     safetySettings,
 });
-
