@@ -37,10 +37,10 @@ const QuestionSection = ({ mockInterviewQstn, activeQstnIdx, setActiveQstnIdx}) 
       </div>
 
       {/* Current Question */}
-      <div className="mt-5 flex items-center gap-3">
+      <div className="mt-5">
         <h2 className="text-md md:text-lg">{currentQuestion?.question}</h2>
-        <Volume2
-          className="cursor-pointer"
+        <Volume2 size={25}
+          className="cursor-pointer mt-4"
           onClick={() => textToSpeak(currentQuestion?.question)}
         />
       </div>
