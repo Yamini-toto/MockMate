@@ -32,7 +32,7 @@ const RecordAnswerSection = ({ mockInterviewQstn, activeQstnIdx, interviewData }
   });
 
   useEffect(() => {
-    results.map((result) => {
+    results?.map((result) => {
       setUserAnswer((prev) => prev + result?.transcript);
     })
   }, [results])
@@ -82,7 +82,7 @@ const RecordAnswerSection = ({ mockInterviewQstn, activeQstnIdx, interviewData }
     console.log(mockJsonResp)
     const JsonFeedbackResp = JSON.parse(mockJsonResp)
 
-    const resp = await db.insert(UserAnswer)
+    const resp = await db.insert(UserAnswer) 
       .values({
         mockIdRef: interviewData?.mockId,
         question: mockInterviewQstn[activeQstnIdx]?.question,
