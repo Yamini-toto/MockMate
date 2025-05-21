@@ -5,52 +5,71 @@ import { MockInterview } from '@/utils/schema';
 import { eq } from 'drizzle-orm';
 import { Button } from '@/components/ui/button';
 import QuestionSection from './_components/QuestionSection';
-import RecordAnswerSection from './_components/RecordAnswerSection';
-import { Link } from 'lucide-react';
-const StartInterview = ({ params }) => {
+import dynamic from 'next/dynamic'; // for dynamic import
+import { useRouter } from 'next/navigation'; // programmatic routing
 
+// Dynamically import component to avoid navigator error
+const RecordAnswerSection = dynamic(() => import('./_components/RecordAnswerSection'), {
+  ssr: false,
+});
+
+const StartInterview = ({ params }) => {
   const [interviewData, setInterviewData] = useState();
   const [mockInterviewQstn, setmockInterviewQstn] = useState();
   const [activeQstnIdx, setActiveQstnIdx] = useState(0);
+  const router = useRouter();
 
   useEffect(() => {
     GetInterviewDetails();
   }, []);
 
-  //getting interview details
   const GetInterviewDetails = async () => {
     const result = await db.select().from(MockInterview).where(eq(MockInterview.mockId, params.interviewId))
     const jsonMockResp = JSON.parse(result[0].jsonMockResp);
-    console.log("Parsed jsonMockResp:", jsonMockResp);
     setmockInterviewQstn(jsonMockResp.interviewQuestions);
     setInterviewData(result[0]);
   }
+
+  const handleEndInterview = () => {
+    if (interviewData?.mockId) {
+      router.push(`/dashboard/interview/${interviewData.mockId}/feedback`);
+    }
+  };
+
   return (
     <div>
       <div className='grid grid-cols-1 md:grid-cols-2 gap-10'>
-        {/* question */}
-        <QuestionSection mockInterviewQstn={mockInterviewQstn} activeQstnIdx={activeQstnIdx} setActiveQstnIdx={setActiveQstnIdx} />
+        {/* Question Section */}
+        <QuestionSection
+          mockInterviewQstn={mockInterviewQstn}
+          activeQstnIdx={activeQstnIdx}
+          setActiveQstnIdx={setActiveQstnIdx}
+        />
 
-        {/* video / Audio recording */}
+        {/* Video/Audio Recording Section */}
         <RecordAnswerSection
-          mockInterviewQstn={mockInterviewQstn} activeQstnIdx={activeQstnIdx} interviewData={interviewData}
+          mockInterviewQstn={mockInterviewQstn}
+          activeQstnIdx={activeQstnIdx}
+          interviewData={interviewData}
         />
       </div>
-      <div className='flex justify-end gap-6'>
+
+      {/* Navigation Buttons */}
+      <div className='flex justify-end gap-6 mt-6'>
         {activeQstnIdx > 0 &&
           <Button onClick={() => setActiveQstnIdx(activeQstnIdx - 1)}>Previous Question</Button>
         }
-        {activeQstnIdx != mockInterviewQstn?.length - 1 &&
+
+        {activeQstnIdx !== mockInterviewQstn?.length - 1 &&
           <Button onClick={() => setActiveQstnIdx(activeQstnIdx + 1)}>Next Question</Button>
         }
-        {activeQstnIdx == mockInterviewQstn?.length - 1 &&
-          <Link href={'/dashboard/interview'+interviewData?.mockId+"/feedback"}>
-            <Button>End Interview</Button>
-          </Link>
+
+        {activeQstnIdx === mockInterviewQstn?.length - 1 &&
+          <Button onClick={handleEndInterview}>End Interview</Button>
         }
       </div>
     </div>
   )
 }
 
-export default StartInterview
+export default StartInterview;
