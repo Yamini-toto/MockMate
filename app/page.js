@@ -65,7 +65,7 @@ export default function Home() {
     </div>
     <hr className='border-[#e1fffe]'/>
 
-    <div>
+    <div id="faq">
         <FaqSection />
     </div>
 

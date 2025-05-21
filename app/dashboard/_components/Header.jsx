@@ -30,7 +30,7 @@ function Header() {
                 <Link href="/">Home</Link>
               </li>
               <li className="hover:text-blue-800 hover:font-bold transition-all cursor-pointer">
-                <Link href="/faq">FAQ</Link>
+                <Link href="#faq">FAQ</Link>
               </li>
               <li className="hover:text-blue-800 hover:font-bold transition-all cursor-pointer">
                 <Link href="/pricing">Pricing</Link>
@@ -38,17 +38,17 @@ function Header() {
             </>
           ) : (
             <>
-              <li className={`hover:text-blue-800 hover:font-bold transition-all cursor-pointer ${path == '/dashboard' && 'text-blue-800 font-bold'}`}>
-                <Link href="/">Home</Link>
+              <li className={`hover:text-blue-800 hover:font-bold transition-all cursor-pointer ${path == '/dashboard' && 'text-blue-800 font-bold'}`}> 
+                <Link href="/dashboard">Dashboard</Link>
               </li>
-              <li className={`hover:text-blue-800 hover:font-bold transition-all cursor-pointer ${path == '/dashboard/questions' && 'text-blue-800 font-bold'}`}>
+              <li className={`hover:text-blue-800 hover:font-bold transition-all cursor-pointer ${path == '/dashboard/questions' && 'text-blue-800 font-bold'}`}> 
                 <Link href="/dashboard/questions">Questions</Link>
               </li>
-              <li className={`hover:text-blue-800 hover:font-bold transition-all cursor-pointer ${path == '/dashboard/upgrade' && 'text-blue-800 font-bold'}`}>
+              <li className={`hover:text-blue-800 hover:font-bold transition-all cursor-pointer ${path == '/dashboard/upgrade' && 'text-blue-800 font-bold'}`}> 
                 <Link href="/dashboard/upgrade">Upgrade</Link>
               </li>
-              <li className={`hover:text-blue-800 hover:font-bold transition-all cursor-pointer ${path == '/dashboard/how' && 'text-blue-800 font-bold'}`}>
-                <Link href="/dashboard/how">How It Works?</Link>
+              <li className={`hover:text-blue-800 hover:font-bold transition-all cursor-pointer ${path == '/dashboard/how' && 'text-blue-800 font-bold'}`}> 
+                <Link href="/dashboard/how-it-works">How It Works?</Link>
               </li>
             </>
           )}
@@ -58,9 +58,18 @@ function Header() {
         <div className="flex items-center gap-4">
           {isSignedIn ? (
             <>
-              <Link href="/dashboard" className="hidden md:block hover:text-blue-800 hover:font-bold transition-all cursor-pointer">
-                Dashboard
-              </Link>
+              {/* Show Dashboard link beside user button only on home page */}
+              {path === '/' && (
+                <Link href="/dashboard" className="hidden md:block hover:text-blue-800 hover:font-bold transition-all cursor-pointer">
+                  Dashboard
+                </Link>
+              )}
+              {/* Show Home link beside user button only on dashboard pages */}
+              {path !== '/' && (
+                <Link href="/" className="hidden md:block hover:text-blue-800 hover:font-bold transition-all cursor-pointer">
+                  Home
+                </Link>
+              )}
               <UserButton />
             </>
           ) : (
@@ -103,11 +112,17 @@ function Header() {
               <li className="hover:text-blue-800 hover:font-bold transition-all cursor-pointer" onClick={() => setMenuOpen(false)}>
                 <Link href="/pricing">Pricing</Link>
               </li>
+              {/* Dashboard link beside user button in mobile menu */}
+              {isSignedIn && (
+                <li className="hover:text-blue-800 hover:font-bold transition-all cursor-pointer" onClick={() => setMenuOpen(false)}>
+                  <Link href="/dashboard">Dashboard</Link>
+                </li>
+              )}
             </>
           ) : (
             <>
               <li className={`hover:text-blue-800 hover:font-bold transition-all cursor-pointer ${path == '/dashboard' && 'text-blue-800 font-bold'}`} onClick={() => setMenuOpen(false)}>
-                <Link href="/">Home</Link>
+                <Link href="/dashboard">Dashboard</Link>
               </li>
               <li className={`hover:text-blue-800 hover:font-bold transition-all cursor-pointer ${path == '/dashboard/questions' && 'text-blue-800 font-bold'}`} onClick={() => setMenuOpen(false)}>
                 <Link href="/dashboard/questions">Questions</Link>
@@ -116,8 +131,14 @@ function Header() {
                 <Link href="/dashboard/upgrade">Upgrade</Link>
               </li>
               <li className={`hover:text-blue-800 hover:font-bold transition-all cursor-pointer ${path == '/dashboard/how' && 'text-blue-800 font-bold'}`} onClick={() => setMenuOpen(false)}>
-                <Link href="/dashboard/how">How It Works?</Link>
+                <Link href="/dashboard/how-it-works">How It Works?</Link>
               </li>
+              {/* Home link beside user button in mobile menu */}
+              {isSignedIn && (
+                <li className="hover:text-blue-800 hover:font-bold transition-all cursor-pointer" onClick={() => setMenuOpen(false)}>
+                  <Link href="/">Home</Link>
+                </li>
+              )}
             </>
           )}
         </ul>
