@@ -21,11 +21,35 @@ const articles = [
     img: 'https://media.geeksforgeeks.org/wp-content/cdn-uploads/20210101144029/10-Tips-to-Crack-Coding-Interview.png',
     source: 'GeeksforGeeks',
   },
+  {
+    title: 'Mastering JavaScript Algorithms',
+    url: 'https://www.educative.io/blog/javascript-algorithms-interview-questions',
+    img: '/assets/js-algo.png',
+    source: 'Educative',
+  },
+  {
+    title: 'Behavioral Interview Tips for Developers',
+    url: 'https://www.interviewbit.com/blog/behavioral-interview-questions/',
+    img: '/assets/behavioral-tips.png',
+    source: 'InterviewBit',
+  },
+  {
+    title: 'System Design Interview Guide',
+    url: 'https://www.interviewkickstart.com/learn/system-design-interview-questions',
+    img: '/assets/system-design.png',
+    source: 'Interview Kickstart',
+  },
+  {
+    title: 'Data Structures for Coding Interviews',
+    url: 'https://www.geeksforgeeks.org/data-structures/',
+    img: '/assets/data-structures.png',
+    source: 'GeeksforGeeks',
+  },
 ];
 
 function ArticleSection() {
   return (
-    <div className="bg-[#e1fffe] rounded-xl shadow p-4 max-h-80 w-full min-w-[220px] overflow-y-auto flex flex-col gap-3">
+    <div className="bg-[#e1fffe] rounded-xl shadow p-4 min-h-[420px] w-full min-w-[220px] flex flex-col gap-3">
       <h3 className="font-bold text-md mb-2 text-[#0a3d62]">Learn & Improve</h3>
       <p className="text-xs text-[#0a3d62] mb-2">Access curated articles and resources to boost your skills in your chosen field.</p>
       {articles.map((a, i) => (
@@ -56,7 +80,7 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
         {/* Left: Add Interview + Learn & Improve */}
         <div className="space-y-8 col-span-1">
-          <h3 className="font-bold text-xl text-[#0a3d62] mb-2">Start New Interview</h3>
+          <h3 className="font-bold text-xl text-[#e1fffe] mb-2">Start New Interview</h3>
           <AddNewInterview />
           <ArticleSection />
         </div>

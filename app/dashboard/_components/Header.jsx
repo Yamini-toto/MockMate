@@ -30,10 +30,10 @@ function Header() {
                 <Link href="/">Home</Link>
               </li>
               <li className="hover:text-blue-800 hover:font-bold transition-all cursor-pointer">
-                <Link href="#faq">FAQ</Link>
+                <a href="#faq">FAQ</a>
               </li>
               <li className="hover:text-blue-800 hover:font-bold transition-all cursor-pointer">
-                <Link href="/pricing">Pricing</Link>
+                <a href="#plans">Pricing</a>
               </li>
             </>
           ) : (

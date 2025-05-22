@@ -5,6 +5,9 @@ import { useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import Header from "./dashboard/_components/Header";
+import dynamic from 'next/dynamic';
+
+const Plans = dynamic(() => import('./dashboard/_components/plans'), { ssr: false });
 
 export default function Home() {
   const user = useUser();
@@ -16,17 +19,7 @@ export default function Home() {
       <div className="text-center py-2 bg-[#C3FF93]">
         <h1 className="font-bold">Start your AI interview practice now</h1>
       </div>
-      {/* <navbar>
-      <div className="bg-[#F8FEFE] pt-2 px-20 shadow-md flex justify-between items-center">
-        <Image src={'/assets/FullLogo.png'} width={65} height={65} alt="logo"/>
-        {userId ? <UserButton />:
-        <div className="flex gap-2">
-          <Link href={'/sign-in'}><Button variant={'outline'} className={'hover:cursor-pointer hover:bg-[#b7c0c0]'}>Sign in</Button></Link>
-          <Link href={'/sign-up'}><Button variant={'outline'} className={'hover:cursor-pointer hover:bg-[#b7c0c0]'}>Sign up</Button></Link>
-        </div>
-        }
-      </div>
-      </navbar> */}
+
       <Header />
         {/* first section */}
       <div className=" mt-3 flex flex-col items-center justify-center gap-2">
@@ -68,6 +61,7 @@ export default function Home() {
     <div id="faq">
         <FaqSection />
     </div>
+    <Plans />
 
       </div>
 

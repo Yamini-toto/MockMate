@@ -79,8 +79,21 @@ const QuestionsList = () => {
           return (
             <div key={interview.mockId}>
               <div className="mb-2 flex flex-col md:flex-row md:items-center md:justify-between gap-2">
-                <span className="font-bold text-2xl text-[#e1fffe] tracking-wider">{interview.jobPosition?.toUpperCase()}</span>
-                <span className="ml-2 text-xs text-gray-300">({interview.createdAt})</span>
+                <div className="flex items-center gap-3">
+                  <span className="font-bold text-2xl text-[#e1fffe] tracking-wider">{interview.jobPosition?.toUpperCase()}</span>
+                  {interview.yearsOfExperience && (
+                    <span className="ml-2 text-sm text-[#C3FF93] font-semibold">{interview.yearsOfExperience} yrs exp</span>
+                  )}
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="ml-2 text-xs text-gray-300">({interview.createdAt})</span>
+                  <a
+                    href={`/dashboard/interview/${interview.mockId}/feedback`}
+                    className="ml-4 px-3 py-1 rounded bg-[#0a3d62] text-[#e1fffe] font-semibold text-xs hover:bg-[#0a7a77] transition-colors shadow"
+                  >
+                    Feedback
+                  </a>
+                </div>
               </div>
               <hr className="border-t-2 border-[#e1fffe] mb-6" />
               <div className="space-y-4">
