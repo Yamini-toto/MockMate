@@ -37,7 +37,7 @@ const StartInterview = ({ params }) => {
   };
 
   return (
-    <div>
+    <div className='mt-10 pb-5 px-2 md:px-8 min-h-screen'>
       <div className='grid grid-cols-1 md:grid-cols-2 gap-10'>
         {/* Question Section */}
         <QuestionSection
@@ -51,22 +51,9 @@ const StartInterview = ({ params }) => {
           mockInterviewQstn={mockInterviewQstn}
           activeQstnIdx={activeQstnIdx}
           interviewData={interviewData}
+          handleEndInterview={handleEndInterview}
+          setActiveQstnIdx={setActiveQstnIdx}
         />
-      </div>
-
-      {/* Navigation Buttons */}
-      <div className='flex justify-end gap-6 mt-6'>
-        {activeQstnIdx > 0 &&
-          <Button onClick={() => setActiveQstnIdx(activeQstnIdx - 1)}>Previous Question</Button>
-        }
-
-        {activeQstnIdx !== mockInterviewQstn?.length - 1 &&
-          <Button onClick={() => setActiveQstnIdx(activeQstnIdx + 1)}>Next Question</Button>
-        }
-
-        {activeQstnIdx === mockInterviewQstn?.length - 1 &&
-          <Button onClick={handleEndInterview}>End Interview</Button>
-        }
       </div>
     </div>
   )

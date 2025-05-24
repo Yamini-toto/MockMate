@@ -5,7 +5,7 @@ import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import Webcam from 'react-webcam'
 import useSpeechToText from 'react-hook-speech-to-text'
-import { MicIcon, StopCircle } from 'lucide-react'
+import { MicIcon, StopCircle, WebcamIcon } from 'lucide-react'
 import { toast } from 'sonner'
 import { chatSession } from '@/utils/GeminiAIModel'
 import { UserAnswer } from '@/utils/schema'
@@ -13,7 +13,7 @@ import { useUser } from '@clerk/nextjs'
 import { db } from '@/utils/db'
 import moment from 'moment/moment'
 
-const RecordAnswerSection = ({ mockInterviewQstn, activeQstnIdx, interviewData }) => {
+const RecordAnswerSection = ({ mockInterviewQstn, activeQstnIdx, interviewData,setActiveQstnIdx,handleEndInterview }) => {
 
   const [userAnswer, setUserAnswer] = useState('');
   const { user } = useUser()
@@ -105,19 +105,34 @@ const RecordAnswerSection = ({ mockInterviewQstn, activeQstnIdx, interviewData }
   }
 
   return (
-    <div className='flex flex-col items-center justify-center'>
-      <div className='flex flex-col mt-20 justify-center bg-black items-center rounded-lg p-5'>
-        <Image src={'/assets/Webcam.png'} alt="wencam" width={200} height={200} className='absolute' />
+    <div className='flex justify-arround mt-8 flex-col items-center'>
+      <div className='flex flex-col mt-1 justify-center bg-black items-center rounded-lg p-5'>
+        <WebcamIcon width={200} height={200} className='absolute  bg-black text-[#0a7a77] shadow' />
         <Webcam style={{ height: 300, width: '100%', zIndex: 10 }} mirrored={true} />
       </div>
       <Button disabled={loading} className='my-10' variant='outline' onClick={StartStopRecording}>
         {isRecording ?
-          <h2 className=' animate-pulse text-red-600 flex items-center gap-2'><StopCircle />Stop Recording</h2>
+          <h2 className=' animate-pulse text-red-600 flex items-center'><StopCircle />Stop Recording</h2>
           :
-          <h2 className=' animate-pulse text-primary flex items-center gap-2'><MicIcon />Record Answer</h2>
+          <h2 className=' animate-pulse text-primary flex items-center'><MicIcon />Record Answer</h2>
         }
       </Button>
       {/* <Button onClick={() => console.log(userAnswer)}>Show User answer</Button> */}
+       {/* Navigation Buttons */}
+      <div className='flex justify-center w-full gap-5' style={{marginTop: '-1rem'}}>
+        {activeQstnIdx > 0 &&
+          <Button onClick={() => setActiveQstnIdx(activeQstnIdx - 1)}>Previous Question</Button>
+        }
+
+        {activeQstnIdx !== mockInterviewQstn?.length - 1 &&
+          <Button className='bg-[#0a7a77] cursor-pointer hover:bg-[#0a5a55]' onClick={() => setActiveQstnIdx(activeQstnIdx + 1)}>Next Question</Button>
+        }
+
+        {activeQstnIdx === mockInterviewQstn?.length - 1 &&
+          <Button onClick={handleEndInterview} className='bg-[#0a7a77] cursor-pointer hover:bg-[#0a5a55]'>End Interview</Button>
+        }
+      </div>
+      
     </div>
   )
 }
