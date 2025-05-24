@@ -5,6 +5,7 @@ import { MockInterview, UserAnswer } from "@/utils/schema";
 import { useUser } from "@clerk/nextjs";
 import { eq } from "drizzle-orm";
 import { ChevronDown } from "lucide-react";
+import moment from "moment";
 
 const QuestionsList = () => {
   const { user } = useUser();
@@ -38,7 +39,14 @@ const QuestionsList = () => {
     );
   }
   if (recentOnly) {
-    filteredInterviews = [...filteredInterviews].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    filteredInterviews = [...filteredInterviews].sort((a, b) => {
+      const dateA = moment(a.createdAt, ["DD-MM-YYYY", "DD-MM-YY", moment.ISO_8601], true);
+      const dateB = moment(b.createdAt, ["DD-MM-YYYY", "DD-MM-YY", moment.ISO_8601], true);
+      if (!dateA.isValid() && !dateB.isValid()) return 0;
+      if (!dateA.isValid()) return 1;
+      if (!dateB.isValid()) return -1;
+      return dateB.valueOf() - dateA.valueOf();
+    });
   }
 
   if (loading) return <div className="text-center py-10 text-[#e1fffe]">Loading...</div>;

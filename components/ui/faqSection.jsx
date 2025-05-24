@@ -12,7 +12,7 @@ const FaqSection = () => {
   };
 
   return (
-    <section className="py-12 px-6 max-w-4xl mx-auto">
+    <section className= " py-12 px-6 max-w-4xl mx-auto">
       <h2 className="text-3xl font-bold text-center mb-10 text-[#e1fffe]">Frequently Asked Questions</h2>
       <div className="space-y-4">
         {faqData.map((item, index) => (

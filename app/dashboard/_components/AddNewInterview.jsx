@@ -69,46 +69,48 @@ const AddNewInterview = () => {
 
   return (
     <div>
-      <div className='p-10 border rounded-lg bg-secondary hover:scale-105 hover:shadow-md cursor-pointer transition-all'
+      <div
+        className='p-10 border-2 border-[#0a7a77] rounded-2xl bg-white hover:shadow-xl hover:scale-105 cursor-pointer transition-all duration-200 flex flex-col items-center justify-center gap-2 min-h-[120px] max-w-xs mx-auto shadow-md'
         onClick={() => setOpenDialog(true)}
       >
-        <h2 className='font-bold text-lg text-center'>+ Add New</h2>
+        <h2 className='font-bold text-2xl text-[#0a7a77] mb-1'>+ Add New</h2>
       </div>
       <Dialog open={OpenDialog}>
-        <DialogContent className='max-w-2xl'>
+        <DialogContent className='max-w-2xl rounded-2xl border-2 border-[#0a7a77] bg-white shadow-2xl'>
           <DialogHeader>
-            <DialogTitle className="font-bold text-2xl">Tell us more about your job interview</DialogTitle>
+            <DialogTitle className="font-bold text-3xl text-[#0a7a77] mb-2">Tell us more about your job interview</DialogTitle>
             <DialogDescription>
-              <form onSubmit={onSubmit}>
+              <form onSubmit={onSubmit} className="flex flex-col gap-4 mt-2">
                 <div>
-                  <h2>Add Details about your job position/role, Job description and years of experience </h2>
-                  <div className='mt-7 my-3' >
-                    <label>Job Role/Job Position</label>
-                    <Input placeholder="Ex.Full Stack Developer" required
+                  <h2 className="text-[#0a3d62] font-semibold mb-2">Add details about your job position/role, job description, and years of experience</h2>
+                  <div className='mt-7 my-3'>
+                    <label className="block text-[#0a7a77] font-medium mb-1">Job Role/Job Position</label>
+                    <Input placeholder="Ex. Full Stack Developer" required
+                      className="rounded-lg bg-white border-[#0a7a77] focus:border-[#0a7a77] focus:ring-2 focus:ring-[#0a7a77] focus:outline-[#0a7a77]"
                       onChange={(e) => setJobPosition(e.target.value)}
                     />
                   </div>
-                  <div className='my-3' >
-                    <label>Job Description/Tech Stack(In Short)</label>
-                    <Textarea placeholder="Ex.React, Angular, NodeJs, MySql etc" required
+                  <div className='my-3'>
+                    <label className="block text-[#0a7a77] font-medium mb-1">Job Description/Tech Stack (In Short)</label>
+                    <Textarea placeholder="Ex. React, Angular, NodeJs, MySql etc" required
+                      className="rounded-lg bg-white border-[#0a7a77] focus:border-[#0a7a77] focus:ring-2 focus:ring-[#0a7a77] focus:outline-[#0a7a77]"
                       onChange={(e) => setJobDesc(e.target.value)}
-
                     />
                   </div>
-                  <div className='my-3' >
-                    <label>Years of experience</label>
-                    <Input placeholder="Ex.5" type='number' max="50" required
+                  <div className='my-3'>
+                    <label className="block text-[#0a7a77] font-medium mb-1">Years of Experience</label>
+                    <Input placeholder="Ex. 5" type='number' max="50" required
+                      className="rounded-lg bg-white border-[#0a7a77] focus:border-[#0a7a77] focus:ring-2 focus:ring-[#0a7a77] focus:outline-[#0a7a77]"
                       onChange={(e) => setJobExperience(e.target.value)}
-
                     />
                   </div>
                 </div>
-                <div className='flex gap-5 justify-end'>
-                  <Button type="button" variant="ghost" onClick={() => setOpenDialog(false)}>Cancel</Button>
-                  <Button type="submit" disabled={loading}>
+                <div className='flex gap-5 justify-end mt-4'>
+                  <Button type="button" variant="ghost" className="rounded-full px-6 py-2 text-[#0a7a77] border border-[#0a7a77] hover:bg-[#C3FF93]/40 focus:ring-2 focus:ring-[#0a7a77] focus:outline-[#0a7a77]" onClick={() => setOpenDialog(false)}>Cancel</Button>
+                  <Button type="submit" disabled={loading} className="rounded-full px-6 py-2 bg-[#0a7a77] text-[#e1fffe] hover:bg-[#06514e] font-semibold shadow-md focus:ring-2 focus:ring-[#0a7a77] focus:outline-[#0a7a77]">
                     {loading ?
                       <>
-                        <LoaderCircle className='animate-spin' />Generating from AI
+                        <LoaderCircle className='animate-spin mr-2' />Generating from AI
                       </> :
                       'Start Interview'
                     }

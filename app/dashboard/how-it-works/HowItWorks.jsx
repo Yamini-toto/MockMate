@@ -42,7 +42,7 @@ export default function HowItWorks() {
 			<div className="max-w-3xl w-full mx-auto">
 				<div className="flex flex-col items-center mb-10">
 					<Image
-						src="/assets/robotIcon.png"
+						src="/assets/mockFooter.png"
 						width={70}
 						height={70}
 						alt="AI Icon"

@@ -54,50 +54,48 @@ const DashboardStats = () => {
     fieldStats[f].total ? Math.round(fieldStats[f].sum / fieldStats[f].total) : 0
   );
 
+  // Only show fields with at least one non-zero rating
+  const hasFieldData = fieldLabels.length > 0 && fieldData.some(val => val > 0);
+
   // Answer quality breakdown
   const good = answers.filter(a => parseInt(a.rating) >= 7).length;
   const average = answers.filter(a => parseInt(a.rating) >= 4 && parseInt(a.rating) < 7).length;
   const poor = answers.filter(a => parseInt(a.rating) < 4).length;
 
-  // Dummy data for demo if no real data
-  const dummyFieldLabels = ["React", "Node.js", "SQL", "System Design"];
-  const dummyFieldData = [8, 6, 4, 7];
-  const dummyBarColors = ["#0a7a77", "#C3FF93", "#ffbaba", "#fbbf24"]; // System Design is now yellow
-  const dummyGood = 5, dummyAverage = 2, dummyPoor = 1;
-
-  const hasFieldData = fieldLabels.length > 0 && fieldData.some(val => val > 0);
-  const hasAnswerData = good + average + poor > 0;
-
   return (
     <div className="flex flex-col gap-8 my-8 w-full">
       {/* Proficiency Graph */}
       <div className="bg-[#e1fffe] rounded-xl shadow p-6 w-full">
-        <h3 className="font-bold text-lg mb-2 text-[#0a3d62]">Proficiency by Field</h3>
-        <Bar
-          data={{
-            labels: hasFieldData ? fieldLabels : dummyFieldLabels,
-            datasets: [
-              {
-                label: "Avg. Rating",
-                data: hasFieldData ? fieldData : dummyFieldData,
-                backgroundColor: hasFieldData ? "#0a7a77" : dummyBarColors,
-                borderRadius: 8,
+        <h3 className="font-bold text-lg mb-2 text-[#0a3d62]">Proficiency by Role</h3>
+        {hasFieldData ? (
+          <Bar
+            data={{
+              labels: fieldLabels,
+              datasets: [
+                {
+                  label: "Avg. Rating",
+                  data: fieldData,
+                  backgroundColor: "#0a7a77",
+                  borderRadius: 8,
+                },
+              ],
+            }}
+            options={{
+              responsive: true,
+              animation: { duration: 1200, easing: "easeOutBounce" },
+              plugins: {
+                legend: { display: false },
+                title: { display: false },
               },
-            ],
-          }}
-          options={{
-            responsive: true,
-            animation: { duration: 1200, easing: "easeOutBounce" },
-            plugins: {
-              legend: { display: false },
-              title: { display: false },
-            },
-            scales: {
-              y: { min: 0, max: 10, ticks: { stepSize: 1 } },
-            },
-          }}
-          height={110}
-        />
+              scales: {
+                y: { min: 0, max: 10, ticks: { stepSize: 1 } },
+              },
+            }}
+            height={110}
+          />
+        ) : (
+          <div className="text-center text-gray-400 py-8 text-lg font-semibold">No data to show</div>
+        )}
       </div>
       {/* Answer Quality Report */}
       <div className="bg-[#e1fffe] rounded-xl shadow p-6 w-full flex flex-col items-center justify-center">
