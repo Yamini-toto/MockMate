@@ -62,6 +62,14 @@ const DashboardStats = () => {
   const average = answers.filter(a => parseInt(a.rating) >= 4 && parseInt(a.rating) < 7).length;
   const poor = answers.filter(a => parseInt(a.rating) < 4).length;
 
+  // Define a palette of colors for the bars
+  const barColors = [
+    "#0a7a77", "#f39c12", "#e74c3c", "#2980b9", "#8e44ad",
+    "#16a085", "#d35400", "#2ecc71", "#c0392b", "#34495e"
+  ];
+  // Assign a color to each field/skill
+  const backgroundColors = fieldLabels.map((_, idx) => barColors[idx % barColors.length]);
+
   return (
     <div className="flex flex-col gap-8 my-8 w-full">
       {/* Proficiency Graph */}
@@ -75,7 +83,7 @@ const DashboardStats = () => {
                 {
                   label: "Avg. Rating",
                   data: fieldData,
-                  backgroundColor: "#0a7a77",
+                  backgroundColor: backgroundColors, // <-- Use array of colors
                   borderRadius: 8,
                 },
               ],
