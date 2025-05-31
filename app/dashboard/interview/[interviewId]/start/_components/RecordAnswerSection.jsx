@@ -37,17 +37,6 @@ const RecordAnswerSection = ({ mockInterviewQstn, activeQstnIdx, interviewData,s
     })
   }, [results])
 
-  useEffect(() => {
-    if (!isRecording && userAnswer.length > 10) {
-      UpdateUserAnswer()
-    }
-    {/*if (userAnswer?.length < 10) {
-      setLoading(false)
-        toast('Error while saving answer, please record again',)
-        return;
-      } */}
-  }, [userAnswer])
-
   const startRecording = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
@@ -64,8 +53,16 @@ const RecordAnswerSection = ({ mockInterviewQstn, activeQstnIdx, interviewData,s
   const StartStopRecording = async () => {
     if (isRecording) {
       stopSpeechToText();
+      // Save answer only when user stops recording
+      if (userAnswer.length > 10) {
+        await UpdateUserAnswer();
+      } else {
+        toast('Error while saving answer, please record again');
+      }
     }
     else {
+      setUserAnswer(''); // Clear previous answer
+      setResults([]);    // Clear previous results
       startSpeechToText();
     }
   }
@@ -104,6 +101,18 @@ const RecordAnswerSection = ({ mockInterviewQstn, activeQstnIdx, interviewData,s
 
   }
 
+  // Navigation button handlers
+  const handlePrev = () => {
+    setUserAnswer('');
+    setResults([]);
+    setActiveQstnIdx(activeQstnIdx - 1);
+  }
+  const handleNext = () => {
+    setUserAnswer('');
+    setResults([]);
+    setActiveQstnIdx(activeQstnIdx + 1);
+  }
+
   return (
     <div className='flex justify-arround mt-8 flex-col items-center'>
       <div className='flex flex-col mt-1 justify-center bg-black items-center rounded-lg p-5'>
@@ -121,11 +130,11 @@ const RecordAnswerSection = ({ mockInterviewQstn, activeQstnIdx, interviewData,s
        {/* Navigation Buttons */}
       <div className='flex justify-center w-full gap-5' style={{marginTop: '-1rem'}}>
         {activeQstnIdx > 0 &&
-          <Button onClick={() => setActiveQstnIdx(activeQstnIdx - 1)}>Previous Question</Button>
+          <Button onClick={handlePrev}>Previous Question</Button>
         }
 
         {activeQstnIdx !== mockInterviewQstn?.length - 1 &&
-          <Button className='bg-[#0a7a77] cursor-pointer hover:bg-[#0a5a55]' onClick={() => setActiveQstnIdx(activeQstnIdx + 1)}>Next Question</Button>
+          <Button className='bg-[#0a7a77] cursor-pointer hover:bg-[#0a5a55]' onClick={handleNext}>Next Question</Button>
         }
 
         {activeQstnIdx === mockInterviewQstn?.length - 1 &&
