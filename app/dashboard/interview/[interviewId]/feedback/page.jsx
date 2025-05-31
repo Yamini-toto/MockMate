@@ -98,10 +98,10 @@ function Feedback({ params }) {
                       <span className="text-xs bg-[#C3FF93] text-[#0a3d62] px-2 py-1 rounded font-bold">Rating: {item.rating}</span>
                     </div>
                     <div className="grid md:grid-cols-2 gap-3">
-                      <div className="bg-[#e1fffe] rounded p-2 text-sm text-[#0a3d62] border">
+                      <div className="bg-[#e1fffe] rounded p-2 text-sm text-[#0a3d62] border max-h-32 overflow-y-auto custom-scrollbar">
                         <strong>Your Answer:</strong> {item.userAns}
                       </div>
-                      <div className="bg-[#C3FF93] rounded p-2 text-sm text-[#0a3d62] border">
+                      <div className="bg-[#C3FF93] rounded p-2 text-sm text-[#0a3d62] border max-h-32 overflow-y-auto custom-scrollbar">
                         <strong>Correct Answer:</strong> {item.correctAns}
                       </div>
                     </div>
@@ -124,6 +124,21 @@ function Feedback({ params }) {
           </Button>
         </div>
       </div>
+      <style jsx global>{`
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 8px;
+          background: #e1fffe;
+          border-radius: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: #0a7a77;
+          border-radius: 8px;
+        }
+        .custom-scrollbar {
+          scrollbar-width: thin;
+          scrollbar-color: #0a7a77 #e1fffe;
+        }
+      `}</style>
     </div>
   );
 }
